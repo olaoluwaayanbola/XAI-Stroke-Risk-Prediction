@@ -57,9 +57,8 @@ def render_trust_dashboard() -> None:
         st.caption(
             '★ Gradient Boosting achieved the highest AUC-ROC. XGBoost was '
             'selected for deployment because SHAP\'s TreeExplainer computes '
-            'exact Shapley values for tree-based models — a requirement for '
-            'rigorous XAI output. The marginal AUC difference (0.0050) does '
-            'not constitute a clinically meaningful performance gap.'
+            'exact Shapley values for tree-based models a requirement for '
+            'rigorous XAI output.'
         )
 
         st.divider()
@@ -88,7 +87,7 @@ def render_trust_dashboard() -> None:
             )
             st.caption(
                 'This log supports clinical governance and audit requirements. '
-                'Downloaded files are not transmitted — all processing is local.'
+                'Downloaded files are not transmitted all processing is local.which makes it cheaper to run the app in a local environment. '
             )
         else:
             st.info(

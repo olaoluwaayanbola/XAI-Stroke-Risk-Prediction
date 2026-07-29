@@ -9,7 +9,7 @@ def render_masthead() -> None:
     if logo.exists():
         lc1, lc2, lc3 = st.columns([1, 1, 1])
         with lc2:
-            st.image(str(logo), use_container_width=True)
+            st.image(str(logo), width='stretch')
 
     st.markdown(
         """

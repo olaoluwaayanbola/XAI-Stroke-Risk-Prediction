@@ -7,6 +7,11 @@ APP_CSS = """
 
 html, body, [class*="css"]  { font-family: 'Source Sans 3', sans-serif; }
 
+/* This design is light-only (no dark variant exists) — opt out of the
+   browser's own automatic dark repainting (seen on some mobile browsers)
+   so our explicit colors below are always what actually renders. */
+:root { color-scheme: light only; }
+
 /* Widen the reading column slightly and set a paper-like background */
 .stApp { background: #fbfaf7; }
 .block-container { padding-top: 2.2rem; max-width: 1150px; }
@@ -182,6 +187,11 @@ section[data-testid="stSidebar"] h2 { font-family:'Lora',serif !important; color
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span { color:#22303c !important; }
+/* The rule above (higher specificity than the general button-text fix below)
+   would otherwise force dark navy text onto the "Run risk assessment"
+   primary button, which lives in the sidebar and has a dark navy background
+   of its own — text and background would be indistinguishable. */
+section[data-testid="stSidebar"] [data-testid="stBaseButton-primary"] p { color: #ffffff !important; }
 section[data-testid="stSidebar"] [data-testid="stLogoSpacer"] { display: none; }
 section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] { gap: .6rem; }
 section[data-testid="stSidebar"] hr { margin: .5rem 0; }
@@ -219,7 +229,39 @@ footer, #MainMenu { visibility: hidden; }
    light theme via .streamlit/config.toml. */
 [data-testid="stExpander"] summary { color: #22303c !important; opacity: 1 !important; }
 [data-testid="stExpander"] summary svg { fill: #22303c !important; opacity: 1 !important; }
+/* The expander's own background is transparent by default, so it merely
+   inherits whatever's behind it — normally our cream .stApp background, but
+   that's an assumption, not a guarantee. Force it explicitly so text inside
+   (e.g. .sec-label headings) always sits on a real light background. */
+[data-testid="stExpander"] { background-color: #fbfaf7; }
+[data-testid="stExpanderDetails"] { background-color: #fbfaf7; }
 [data-testid="stMarkdownContainer"] p { color: #22303c; }
+
+/* st.metric (AUC-ROC / Recall / Precision / F1 Score) — the value/label/delta
+   text has no color of its own in our CSS at all, so like every other native
+   widget above it renders with whatever Streamlit's actual active theme
+   dictates, which can be a light color meant for a dark backdrop. */
+[data-testid="stMetricValue"] { color: #22303c !important; }
+[data-testid="stMetricLabel"] { color: #7a8794 !important; }
+[data-testid="stMetricDelta"] { color: #22303c !important; }
+
+/* Primary button ("Run risk assessment") sits on a dark navy background
+   (primaryColor) — the blanket rule above would otherwise force the same
+   dark navy onto its label, making it unreadable. White is the correct
+   contrast choice against a dark background. */
+[data-testid="stBaseButton-primary"] p { color: #ffffff !important; }
+
+/* Secondary buttons (LIME, PDF/CSV downloads) have no primaryColor fill, so
+   their surface is entirely native-theme-driven — if the active Streamlit
+   theme ever drifts from our custom config, they can render with a dark
+   fill while the rule above still forces dark text onto their label,
+   making them unreadable. Give them a fully self-contained appearance
+   instead of relying on inherited theme colors. */
+[data-testid="stBaseButton-secondary"] {
+    background-color: #ffffff !important;
+    border-color: #2c3e50 !important;
+}
+[data-testid="stBaseButton-secondary"] p { color: #2c3e50 !important; }
 </style>
 """
 

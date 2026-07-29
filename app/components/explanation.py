@@ -33,15 +33,24 @@ def render_explanation(inputs: PatientInputs, result: dict | None) -> None:
         feature_names=features,
     )
     plt.close('all')
-    shap.plots.waterfall(exp, show=False)
-    fig = plt.gcf()
-    fig.patch.set_facecolor('#fbfaf7')
-    st.pyplot(fig, clear_figure=False)
-    st.session_state['shap_fig'] = fig
-    st.markdown(
-        '<div class="figure-caption">Figure 1. Per-feature SHAP contributions to the individual risk estimate.</div>',
-        unsafe_allow_html=True,
-    )
+    try:
+        shap.plots.waterfall(exp, show=False)
+        fig = plt.gcf()
+        fig.patch.set_facecolor('#fbfaf7')
+        st.pyplot(fig, clear_figure=False)
+        st.session_state['shap_fig'] = fig
+        st.markdown(
+            '<div class="figure-caption">Figure 1. Per-feature SHAP contributions to the individual risk estimate.</div>',
+            unsafe_allow_html=True,
+        )
+    except Exception:
+        # shap.plots.waterfall is a third-party matplotlib call whose internal
+        # tick-label handling has known environment-specific failure modes
+        # (e.g. shap/shap#3553, streamlit/streamlit#15326-adjacent version
+        # drift on Streamlit Cloud). Degrade gracefully rather than taking
+        # the rest of the page down with it.
+        st.session_state['shap_fig'] = None
+        st.warning('SHAP waterfall visualization unavailable for this result.')
 
     st.markdown('<div style="height:.8rem"></div>', unsafe_allow_html=True)
     # st.markdown(
@@ -76,5 +85,5 @@ def render_explanation(inputs: PatientInputs, result: dict | None) -> None:
                 data=pdf_bytes,
                 file_name=f"stroke_risk_{datetime.now():%Y%m%d_%H%M}.pdf",
                 mime='application/pdf',
-                use_container_width=True
+                width='stretch'
             )

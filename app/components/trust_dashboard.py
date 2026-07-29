@@ -9,6 +9,8 @@ def render_trust_dashboard() -> None:
     performance across candidate models, dataset/XAI/validation info, and
     the session audit log with CSV export. Works even with no prediction run.
     """
+    st.markdown('<div style="height:1.4rem"></div>', unsafe_allow_html=True)
+
     with st.expander('Model Trust Dashboard', expanded=False):
 
         st.write(
@@ -51,7 +53,7 @@ def render_trust_dashboard() -> None:
             'Precision': [0.7468, 0.7468, 0.7478, 0.6972],
             'F1 Score':  [0.7195, 0.7128, 0.7052, 0.6956],
         })
-        st.dataframe(perf_df, use_container_width=True, hide_index=True)
+        st.dataframe(perf_df, width='stretch', hide_index=True)
         st.caption(
             '★ Gradient Boosting achieved the highest AUC-ROC. XGBoost was '
             'selected for deployment because SHAP\'s TreeExplainer computes '
@@ -61,17 +63,7 @@ def render_trust_dashboard() -> None:
         )
 
         st.divider()
-        inf1, inf2, inf3 = st.columns(3)
-        inf1.info(
-            '**Dataset**  \nCardiovascular Disease Dataset  \n'
-            'Ulianova, Kaggle 2019  \n68,608 patients'
-        )
-        inf2.info(
-            '**XAI methods**  \n'
-            'SHAP TreeExplainer (global + local)  \n'
-            'LIME LimeTabularExplainer (local validation)'
-        )
-        inf3.info(
+        st.info(
             '**Validation**  \n'
             '5-fold cross-validation  \n'
             'Independent held-out test set  \n'
@@ -86,7 +78,7 @@ def render_trust_dashboard() -> None:
 
         if st.session_state.get('history'):
             audit_df = pd.DataFrame(st.session_state['history'])
-            st.dataframe(audit_df, use_container_width=True, hide_index=True)
+            st.dataframe(audit_df, width='stretch', hide_index=True)
             st.download_button(
                 label='Download audit log (CSV)',
                 data=audit_df.to_csv(index=False).encode('utf-8'),

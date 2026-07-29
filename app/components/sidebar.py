@@ -32,7 +32,7 @@ def render_sidebar() -> tuple[PatientInputs, bool]:
         active     = st.selectbox('Physical activity', list(ACTIVITY), format_func=ACTIVITY.get)
 
         st.divider()
-        predict_btn = st.button('Run risk assessment', type='primary', use_container_width=True)
+        predict_btn = st.button('Run risk assessment', type='primary', width='stretch')
 
         st.divider()
         st.markdown(

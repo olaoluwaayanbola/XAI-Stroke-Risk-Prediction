@@ -9,7 +9,7 @@ from model import model, explainer, features
 
 def run_prediction(inputs: PatientInputs) -> None:
     """Compute the risk prediction + SHAP values and stash them into
-    session_state — together with a snapshot of the inputs that produced
+    session_state, together with a snapshot of the inputs that produced
     them (so the result panel can detect staleness) and an appended session
     audit history entry. Call only when 'Run risk assessment' is pressed.
     """

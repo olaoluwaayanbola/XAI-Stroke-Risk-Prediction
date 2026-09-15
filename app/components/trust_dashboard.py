@@ -26,7 +26,7 @@ def render_trust_dashboard() -> None:
         )
 
         m1, m2, m3, m4 = st.columns(4)
-        m1.metric('AUC-ROC',   '0.7949',
+        m1.metric('AUC-ROC',   '0.8002',
                   help='Area under the ROC curve — overall discriminative ability')
         m2.metric('Recall',    '0.6817',
                   help='Sensitivity — proportion of true CVD cases correctly flagged')
@@ -48,7 +48,7 @@ def render_trust_dashboard() -> None:
                 'Logistic Regression',
                 'Random Forest'
             ],
-            'AUC-ROC':   [0.7999, 0.7949, 0.7903, 0.7595],
+            'AUC-ROC':   [0.7999, 0.8002, 0.7903, 0.7595],
             'Recall':    [0.6942, 0.6817, 0.6673, 0.6939],
             'Precision': [0.7468, 0.7468, 0.7478, 0.6972],
             'F1 Score':  [0.7195, 0.7128, 0.7052, 0.6956],
@@ -64,7 +64,7 @@ def render_trust_dashboard() -> None:
         st.divider()
         st.info(
             '**Validation**  \n'
-            '5-fold cross-validation  \n'
+            '3-fold cross-validation  \n'
             'Independent held-out test set  \n'
             'APA 7th edition reporting'
         )

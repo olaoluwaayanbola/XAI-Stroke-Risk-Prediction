@@ -28,11 +28,11 @@ def render_trust_dashboard() -> None:
         m1, m2, m3, m4 = st.columns(4)
         m1.metric('AUC-ROC',   '0.8002',
                   help='Area under the ROC curve — overall discriminative ability')
-        m2.metric('Recall',    '0.6817',
+        m2.metric('Recall',    '0.6842',
                   help='Sensitivity — proportion of true CVD cases correctly flagged')
-        m3.metric('Precision', '0.7468',
+        m3.metric('Precision', '0.7509',
                   help='Positive predictive value — accuracy of high-risk flags')
-        m4.metric('F1 Score',  '0.7128',
+        m4.metric('F1 Score',  '0.7160',
                   help='Harmonic mean of Precision and Recall')
 
         st.divider()
@@ -43,30 +43,29 @@ def render_trust_dashboard() -> None:
 
         perf_df = pd.DataFrame({
             'Model': [
-                'Gradient Boosting ★',
-                'XGBoost (deployed)',
+                'Gradient Boosting',
+                'XGBoost (deployed) ★',
                 'Logistic Regression',
                 'Random Forest'
             ],
-            'AUC-ROC':   [0.7999, 0.8002, 0.7903, 0.7595],
-            'Recall':    [0.6942, 0.6817, 0.6673, 0.6939],
-            'Precision': [0.7468, 0.7468, 0.7478, 0.6972],
-            'F1 Score':  [0.7195, 0.7128, 0.7052, 0.6956],
+            'AUC-ROC':   [0.8002, 0.8002, 0.7903, 0.8005],
+            'Recall':    [0.6957, 0.6842, 0.6671, 0.6752],
+            'Precision': [0.7468, 0.7509, 0.7477, 0.7517],
+            'F1 Score':  [0.7204, 0.7160, 0.7051, 0.7114],
         })
         st.dataframe(perf_df, width='stretch', hide_index=True)
         st.caption(
-            '★ Gradient Boosting achieved the highest AUC-ROC. XGBoost was '
-            'selected for deployment because SHAP\'s TreeExplainer computes '
-            'exact Shapley values for tree-based models a requirement for '
-            'rigorous XAI output.'
+            '★ XGBoost achieved AUC-ROC comparable to the top-performing '
+            'candidates and was selected for deployment because SHAP\'s '
+            'TreeExplainer computes exact Shapley values for tree-based '
+            'models a requirement for rigorous XAI output.'
         )
 
         st.divider()
         st.info(
             '**Validation**  \n'
             '3-fold cross-validation  \n'
-            'Independent held-out test set  \n'
-            'APA 7th edition reporting'
+            'Independent held-out test set'
         )
 
         st.divider()

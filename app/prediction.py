@@ -13,6 +13,11 @@ def run_prediction(inputs: PatientInputs) -> None:
     them (so the result panel can detect staleness) and an appended session
     audit history entry. Call only when 'Run risk assessment' is pressed.
     """
+    # A fresh prediction invalidates any LIME explanation generated for the
+    # previous patient — drop it so the panel doesn't show a stale chart.
+    st.session_state.pop('lime_result', None)
+    st.session_state['lime_expanded'] = False
+
     with st.spinner('Computing risk assessment…'):
         # Column order must match feature_names.pkl exactly — never change this.
         row = pd.DataFrame(

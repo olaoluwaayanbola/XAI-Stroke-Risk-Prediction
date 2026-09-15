@@ -153,7 +153,7 @@ def generate_pdf_report(
         ['Algorithm',  'XGBoost (Extreme Gradient Boosting)'],
         ['Dataset',    'Cardiovascular Disease Dataset (Ulianova, Kaggle 2019)'],
         ['Training N', '68,608 patients'],
-        ['AUC-ROC',   '0.7949 (test set)'],
+        ['AUC-ROC',   '0.8002 (test set)'],
         ['XAI method', 'SHAP TreeExplainer (exact Shapley values)'],
     ]
     mt = Table(model_rows, colWidths=[4*cm, 12*cm])

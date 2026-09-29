@@ -14,7 +14,7 @@ from components.trust_dashboard import render_trust_dashboard
 # Page configuration
 # --------------------------------------------------------------------------- #
 st.set_page_config(
-    page_title='Stroke / CVD Risk — Clinical Decision Support',
+    page_title='CVD Risk (Stroke-Risk Proxy) — Clinical Decision Support',
     layout='wide',
 )
 
@@ -39,7 +39,7 @@ stale  = result is not None and st.session_state.get('result_inputs') != inputs
 
 # --------------------------------------------------------------------------- #
 # Main body — patient summary + risk assessment, SHAP explanation, PDF export,
-# what-if simulator, LIME validation, model trust dashboard
+# what-if simulator, LIME cross-check, model trust dashboard
 # --------------------------------------------------------------------------- #
 render_summary_and_results(inputs, result, stale)
 render_explanation(inputs, result)

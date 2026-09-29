@@ -15,7 +15,7 @@ except ImportError:
 
 
 def render_lime_panel(result: dict | None) -> None:
-    """LIME — Independent Explanation Validation expander. No-op until a
+    """LIME cross-method consistency check expander. No-op until a
     prediction has been run.
     """
     if result is None:
@@ -23,14 +23,15 @@ def render_lime_panel(result: dict | None) -> None:
 
     st.markdown('<div style="height:.8rem"></div>', unsafe_allow_html=True)
 
-    with st.expander('LIME — Independent Explanation Validation',
+    with st.expander('LIME — Cross-method consistency check',
                      expanded=st.session_state.get('lime_expanded', False)):
 
         st.write(
-            'LIME (Local Interpretable Model-agnostic Explanations) validates '
-            'the SHAP output using a mathematically independent method. '
-            'When both methods agree on the dominant risk factors, clinical '
-            'confidence in the explanation is substantially increased.'
+            'LIME (Local Interpretable Model-agnostic Explanations) fits a '
+            'simple local approximation to the model and provides a cross-check '
+            'of the SHAP explanation. Agreement with SHAP indicates explanatory '
+            'consistency only; LIME\'s local fidelity for this model is low, so '
+            'agreement is not validation of the model.'
         )
 
         if not LIME_AVAILABLE:
@@ -149,8 +150,8 @@ def render_lime_panel(result: dict | None) -> None:
                         st.success(
                             f'SHAP and LIME agree on **{len(overlap)}/3** '
                             f'top risk drivers  ({", ".join(sorted(overlap))}).\n\n'
-                            'Cross-method agreement strengthens confidence in '
-                            'the explanation.'
+                            'This supports cross-method explanatory '
+                            'consistency; it is not validation of the model.'
                         )
                     else:
                         st.warning(

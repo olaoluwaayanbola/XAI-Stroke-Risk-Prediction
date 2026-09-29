@@ -71,7 +71,7 @@ def generate_pdf_report(
                        fontName='Times-Bold', spaceAfter=2)
 
     # ── Header ────────────────────────────────────────────────────────────
-    story.append(Paragraph('Stroke &amp; CVD Risk Assessment Report', title_style))
+    story.append(Paragraph('CVD Risk Assessment Report (Stroke-Risk Proxy)', title_style))
     story.append(Paragraph(
         'Explainable AI · Clinical Decision Support System', subtitle_style))
     story.append(Paragraph(
@@ -123,6 +123,8 @@ def generate_pdf_report(
     story.append(Paragraph(label.upper(), S('Normal', fontSize=11,
         textColor=risk_colour, fontName='Helvetica-Bold', spaceAfter=4)))
     story.append(Paragraph(
+        'Predicted CVD-positive probability (unadjusted model output), used as a '
+        'stroke-risk proxy score. No prior shift or prevalence adjustment is applied. '
         'Risk thresholds: Low &lt; 40% · Moderate 40–69% · High ≥ 70%',
         small_style))
     story.append(Spacer(1, 10))

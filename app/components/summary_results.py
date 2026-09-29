@@ -55,7 +55,7 @@ def render_summary_and_results(inputs: PatientInputs, result: dict | None, stale
                 f"""
                 <div class="result-card {klass}">
                     <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:#8a8577;">
-                        Estimated CVD Risk Probability
+                        Predicted CVD-positive probability (unadjusted model output)
                     </div>
                     <div class="result-prob {klass}">{prob:.1%}</div>
                     <div class="result-label {klass}">{label}</div>
@@ -66,6 +66,12 @@ def render_summary_and_results(inputs: PatientInputs, result: dict | None, stale
 
             st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
             # st.progress(min(max(prob, 0.0), 1.0))
-            st.caption('Risk thresholds: Low < 40% · Moderate 40–69% · High ≥ 70%')
+            st.caption(
+                'Risk thresholds: Low < 40% · Moderate 40–69% · High ≥ 70%.  \n'
+                'Stroke-risk proxy score: the probability of the CVD outcome from a model '
+                'developed on near-balanced (49.5% CVD-positive) data. No prior shift or '
+                'prevalence adjustment is applied, so this overstates risk for '
+                'lower-prevalence populations.'
+            )
         else:
             st.info('Review the patient summary on the left and select **Run risk assessment** to generate results.')

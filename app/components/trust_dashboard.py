@@ -14,7 +14,7 @@ def render_trust_dashboard() -> None:
     with st.expander('Model Trust Dashboard', expanded=False):
 
         st.write(
-            'This dashboard presents the validated performance of the '
+            'This dashboard presents the test-set performance of the '
             'deployed XGBoost model, evaluated on an independent held-out '
             'test set. It is intended to support informed, transparent '
             'use of the system by clinical staff.'
@@ -85,8 +85,9 @@ def render_trust_dashboard() -> None:
                 help='Full record of all risk assessments run in this session'
             )
             st.caption(
-                'This log supports clinical governance and audit requirements. '
-                'Downloaded files are not transmitted all processing is local.which makes it cheaper to run the app in a local environment. '
+                'Session log for this browser session only; not a clinical audit '
+                'trail. Downloaded files are not transmitted; all processing runs '
+                'in this session.'
             )
         else:
             st.info(

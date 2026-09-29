@@ -15,8 +15,8 @@ def render_masthead() -> None:
         """
         <div class="masthead">
             <div class="eyebrow">Clinical Decision Support System &nbsp;·&nbsp; Explainable AI</div>
-            <h1>Stroke &amp; Cardiovascular Disease Risk Assessment</h1>
-            <div class="subtitle">A machine-learning tool with SHAP-based transparency for individual risk estimation</div>
+            <h1>Cardiovascular Disease Risk Assessment</h1>
+            <div class="subtitle">A machine-learning tool with SHAP-based transparency for individual risk estimation. The model predicts a general cardiovascular disease (CVD) outcome, used here as a stroke-risk proxy.</div>
         </div>
         """,
         unsafe_allow_html=True,

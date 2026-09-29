@@ -83,7 +83,7 @@ def render_explanation(inputs: PatientInputs, result: dict | None) -> None:
             st.download_button(
                 label='Download report (PDF)',
                 data=pdf_bytes,
-                file_name=f"stroke_risk_{datetime.now():%Y%m%d_%H%M}.pdf",
+                file_name=f"cvd_risk_{datetime.now():%Y%m%d_%H%M}.pdf",
                 mime='application/pdf',
                 width='stretch'
             )

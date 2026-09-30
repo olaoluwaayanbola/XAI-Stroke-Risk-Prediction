@@ -10,9 +10,14 @@ from model import model, features
 def render_simulator(inputs: PatientInputs, result: dict | None) -> None:
     """What-If Intervention Simulator expander. No-op until a prediction has
     been run.
+
+    Projects from the inputs that produced `result` (not the live sidebar),
+    so the delta is always projected − the risk shown on the main badge,
+    even when the sidebar has been edited since the last assessment.
     """
     if result is None:
         return
+    inputs = st.session_state.get('result_inputs', inputs)
 
     st.markdown('<div style="height:1rem"></div>', unsafe_allow_html=True)
     st.markdown(
@@ -47,6 +52,7 @@ def render_simulator(inputs: PatientInputs, result: dict | None) -> None:
             sim_active = st.selectbox(
                 'Physical activity',
                 list(ACTIVITY),
+                index=list(ACTIVITY).index(inputs.active),
                 format_func=ACTIVITY.get,
                 key='sim_active'
             )
@@ -60,7 +66,9 @@ def render_simulator(inputs: PatientInputs, result: dict | None) -> None:
         sim_prob = float(model.predict_proba(sim_row)[0][1])
         delta    = sim_prob - result['prob']
 
-        st.metric(
+        cur_col, sim_col = st.columns(2)
+        cur_col.metric(label='Current risk (main result)', value=f'{result["prob"]:.1%}')
+        sim_col.metric(
             label='Projected risk with interventions',
             value=f'{sim_prob:.1%}',
             delta=f'{delta:+.1%}',

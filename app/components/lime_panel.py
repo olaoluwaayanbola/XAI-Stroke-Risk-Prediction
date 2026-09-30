@@ -23,15 +23,16 @@ def render_lime_panel(result: dict | None) -> None:
 
     st.markdown('<div style="height:.8rem"></div>', unsafe_allow_html=True)
 
-    with st.expander('LIME — Cross-method consistency check',
+    with st.expander('LIME — Cross-Check (Not Validation)',
                      expanded=st.session_state.get('lime_expanded', False)):
 
         st.write(
-            'LIME (Local Interpretable Model-agnostic Explanations) fits a '
-            'simple local approximation to the model and provides a cross-check '
-            'of the SHAP explanation. Agreement with SHAP indicates explanatory '
-            'consistency only; LIME\'s local fidelity for this model is low, so '
-            'agreement is not validation of the model.'
+            'LIME provides a second, methodologically different explanation of '
+            'the same prediction. Agreement between SHAP and LIME on the dominant '
+            'risk factors offers supporting evidence of cross-method consistency, '
+            'but — given this patient\'s LIME fidelity score — it should not be '
+            'interpreted as validation of the model\'s behaviour or as evidence '
+            'of clinical trustworthiness.'
         )
 
         if not LIME_AVAILABLE:
@@ -86,6 +87,8 @@ def render_lime_panel(result: dict | None) -> None:
                         class_names=['No CVD', 'Has CVD'],
                         categorical_features=categorical_idx,
                         mode='classification',
+                        # Seeds explain_instance's perturbation sampling; with
+                        # the seeded reference above, output is reproducible.
                         random_state=42
                     )
 
@@ -131,6 +134,14 @@ def render_lime_panel(result: dict | None) -> None:
 
                 with lime_right:
 
+                    st.metric(
+                        'LIME local fidelity (R²)', f'{lime_r.score:.4f}',
+                        help='R² of the local linear surrogate against the '
+                             'model\'s predictions on the perturbed samples. '
+                             'Low values mean the linear approximation fits '
+                             'the model poorly around this patient.'
+                    )
+
                     # SHAP vs LIME agreement check
                     shap_top3 = set(
                         pd.Series(
@@ -150,8 +161,8 @@ def render_lime_panel(result: dict | None) -> None:
                         st.success(
                             f'SHAP and LIME agree on **{len(overlap)}/3** '
                             f'top risk drivers  ({", ".join(sorted(overlap))}).\n\n'
-                            'This supports cross-method explanatory '
-                            'consistency; it is not validation of the model.'
+                            'This is supporting evidence of cross-method '
+                            'consistency, not validation of the model.'
                         )
                     else:
                         st.warning(

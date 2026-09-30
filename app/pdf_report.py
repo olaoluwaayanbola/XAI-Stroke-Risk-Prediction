@@ -123,8 +123,8 @@ def generate_pdf_report(
     story.append(Paragraph(label.upper(), S('Normal', fontSize=11,
         textColor=risk_colour, fontName='Helvetica-Bold', spaceAfter=4)))
     story.append(Paragraph(
-        'Predicted CVD-positive probability (unadjusted model output), used as a '
-        'stroke-risk proxy score. No prior shift or prevalence adjustment is applied. '
+        'Estimated CVD risk probability (raw model output, unadjusted for population '
+        'prevalence), used as a stroke-risk proxy score. No prior shift is applied. '
         'Risk thresholds: Low &lt; 40% · Moderate 40–69% · High ≥ 70%',
         small_style))
     story.append(Spacer(1, 10))

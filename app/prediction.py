@@ -17,6 +17,10 @@ def run_prediction(inputs: PatientInputs) -> None:
     # previous patient — drop it so the panel doesn't show a stale chart.
     st.session_state.pop('lime_result', None)
     st.session_state['lime_expanded'] = False
+    # Likewise reset the what-if sliders so they start from the new patient's
+    # values rather than carrying over the previous patient's settings.
+    for key in ('sim_bp', 'sim_bmi', 'sim_active'):
+        st.session_state.pop(key, None)
 
     with st.spinner('Computing risk assessment…'):
         # Column order must match feature_names.pkl exactly — never change this.
